@@ -246,6 +246,7 @@ button {
   width: 10%;
   left: 1500px;
   top: 3px;
+  color: white;
 }
 
 button:hover {
