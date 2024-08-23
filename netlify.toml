@@ -1,22 +1,14 @@
 [build]
-  publish = "dist"  # or "build" depending on your project's output folder
+  publish = "dist/"
   command = "npm run build"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  force = true  # forces the redirect even if the requested file exists
 
 [[headers]]
   for = "/*"
   [headers.values]
-    Access-Control-Allow-Origin = "*"
-    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
-    Access-Control-Allow-Headers = "Content-Type, Authorization"
-
-[context.production.environment]
-  AUTH0_CLIENT_ID = "2nBxB42E1RSn1Lm9rLvP0QbpK4rhJ0CP"
-  AUTH0_DOMAIN = "dev-u4sbcq7f57gp3f0s.us.auth0.com"
-
-
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
