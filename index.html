@@ -37,7 +37,8 @@
 
 
     <!-- Button to open the modal login form -->
-<button id="login" onclick="login()">Login</button>
+<button id="login" data-netlify-identity-button">Login</button>
+<div data-netlify-identity-menu></div>
 
 <!-- The Modal -->
 <div id="id01" class="modal">
@@ -131,6 +132,7 @@ class="close" title="Close Modal">&times;</span>
   </div>
   <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
   <script src="js/app.js"></script>
+  <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </body>
 
 </html>
