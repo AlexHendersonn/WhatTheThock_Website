@@ -118,7 +118,7 @@ input:checked + .slider:before {
 .dark-blue-background {
   background-color: #ffffff; /* White text on dark blue */
   color: white; /* Dark  color */
-}
+
   .main {
     background-color: #08152E;
   }
@@ -132,7 +132,7 @@ input:checked + .slider:before {
   #menu {
     color: #08152E;
   }
-
+}
 
 
 
