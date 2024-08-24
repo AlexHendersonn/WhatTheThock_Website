@@ -3,7 +3,7 @@ const { join } = require("path");
 const app = express();
 
 // Serve static assets from the /public folder
-app.use(express.static(join(__dirname, "public")));
+app.use(express.static(join(__dirname)));
 
 // Endpoint to serve the configuration file
 app.get("/auth_config.json", (req, res) => {
