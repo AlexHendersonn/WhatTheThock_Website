@@ -20,6 +20,7 @@
         <a href="thock_off.html"> Thock Off!</a>
         <a href="about.html"> About Us</a>
         <a href="contact_us.html"> Contact us</a>
+        <a href="admin.html" id="adminLink" style="display: none;">Admin</a>
     </div>
 
     <div class="topnav">
@@ -77,6 +78,8 @@
 
     <script>
       
+      
+
         // Get the modal
         var modal = document.getElementById('id01');
 
@@ -128,6 +131,25 @@ function toggleBackgroundColor() {
         logo.src = "/Resources/Thock_logo_white.png"; // Default logo
     }
 }
+
+
+// Check login status and display the admin link if the user is logged in
+netlifyIdentity.on('init', user => {
+            if (user) {
+                document.getElementById('adminLink').style.display = 'block'; // Show admin link
+            } else {
+                document.getElementById('adminLink').style.display = 'none'; // Hide admin link
+            }
+        });
+
+        netlifyIdentity.on('login', user => {
+            document.getElementById('adminLink').style.display = 'block'; // Show admin link
+        });
+
+        netlifyIdentity.on('logout', () => {
+            document.getElementById('adminLink').style.display = 'none'; // Hide admin link
+        });
+
 
         
     </script>
