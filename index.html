@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  <header><img src="/Resources/Thock_logo_white.png" alt="What the Thock Logo"></header>
+  <header><img id="logo" src="/Resources/Thock_logo_white.png" alt="What the Thock Logo"></header>
 <!-----Menu------->
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)"></a>
@@ -33,50 +33,24 @@
       </div>
 
     <div id="menu">
-        <span style="font-size:30px;cursor:pointer" onclick="toggleNav()">&#9776; </span>
+        <span style="font-size:40px;cursor:pointer" onclick="toggleNav()">&#9776; </span>
     </div>
 
 
     <!-- Button to open the modal login form -->
-<button id="login" data-netlify-identity-button></button>
+<button data-netlify-identity-button id="login"></button>
 
 
 <!-- The Modal -->
-<div id="id01" class="modal" data-netlify-identity-menu>
-  <span onclick="document.getElementById('id01').style.display='none'"
-class="close" title="Close Modal">&times;</span>
+<div id="id01" class="modal" data-netlify-identity-menu> </div>
 
-  <!-- Modal Content -->
-  <form class="modal-content animate" action="/admin.html">
-    <div class="imgcontainer">
-      <img src="/public/Resources/Thock_logo_white.png" alt="Avatar" class="avatar">
-    </div>
-
-    <div class="container">
-      <label for="uname"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="uname" required>
-
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
-
-      <button type="submit" onclick="login()">Login</button>
-      <label>
-        <input type="checkbox" checked="checked" name="remember"> Remember me
-      </label>
-    </div>
-
-    <div class="container" >
-      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-      <span class="psw">Forgot <a href="#">password?</a></span>
-    </div>
-  </form>
-</div>
-
-    
+  <!-- Dark mode slider toggle -->
+   <nav class="dark-mode-toggle">
     <label class="switch">
         <input type="checkbox" onclick="toggleBackgroundColor()">
         <span class="slider round"></span>
     </label>
+  </nav>
 
 
 <!-----Main article space------->
@@ -98,6 +72,9 @@ class="close" title="Close Modal">&times;</span>
         </div>
       </div>
 
+
+
+
     <script>
       
         // Get the modal
@@ -116,12 +93,41 @@ class="close" title="Close Modal">&times;</span>
             // Toggle the navigation bar open and closed
             sideNav.classList.toggle("open");
             menuButton.style.marginRight = sideNav.classList.contains("open") ? "250px" : "0";
-        }
 
-        function toggleBackgroundColor() {
-            var body = document.body;
-            body.classList.toggle("dark-blue-background");
+             // Toggle visibility of the menu button
+            menuButton.classList.toggle("hidden");
+
+          // Add event listener to the window
+    window.addEventListener('click', function(event) {
+        // Check if the clicked target is not the sidenav, the menu button, or inside the sidenav
+        if (!sideNav.contains(event.target) && !menuButton.contains(event.target) && sideNav.classList.contains("open")) {
+            // Close the sidenav
+            sideNav.classList.remove("open");
+            menuButton.style.marginRight = "0";
+            menuButton.classList.remove("hidden");
         }
+    });
+}
+
+        
+
+        
+        
+
+function toggleBackgroundColor() {
+    var body = document.body;
+    var logo = document.getElementById('logo'); // Ensure your image has this id
+
+    // Toggle the dark mode class on the body
+    body.classList.toggle("dark-blue-background");
+
+    // Change the logo source based on the dark mode class
+    if (body.classList.contains("dark-blue-background")) {
+        logo.src = "/Resources/Thock_logo_black.png"; // Dark mode logo
+    } else {
+        logo.src = "/Resources/Thock_logo_white.png"; // Default logo
+    }
+}
 
         
     </script>
@@ -131,6 +137,34 @@ class="close" title="Close Modal">&times;</span>
     <h2>Footer</h2>
     <p>Insert Statistics here</p>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const iframe = document.getElementById('netlify-identity-widget');
+    
+        if (iframe) {
+            iframe.onload = function() {
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+    
+                const style = document.createElement('style');
+                style.textContent = `
+                    #login {
+                        background-color: white !important;
+                        color: black !important;
+                        text-decoration: none !important;
+                        display: block !important;
+                        padding: 10px 20px !important;
+                        border-radius: 5px !important;
+                        text-align: center !important;
+                    }
+                `;
+    
+                iframeDoc.head.appendChild(style);
+            };
+        }
+    });
+    </script>
+
   <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
   <script src="js/app.js"></script>
 </body>

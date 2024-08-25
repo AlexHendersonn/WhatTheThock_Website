@@ -5,7 +5,7 @@
 }
 
 #menu {
-  transition: margin-right .5s;
+ 
   position: fixed;
   top: 10px;
   right: 10px;
@@ -13,6 +13,12 @@
   
   
 }
+
+#menu.hidden {
+  opacity: 0;
+  pointer-events: none; /* Prevent clicking when hidden */
+}
+
 header {
   position: fixed;
   top: 0;
@@ -58,7 +64,14 @@ body {
   width: 60px;
   top: 13px;
   height: 34px;
-  left: 92%;
+  
+}
+.dark-mode-toggle {
+  padding: 14px 20px;
+  position: fixed;
+  display: flex;
+  left: 70%;
+  
 }
 
 /* Hide default HTML checkbox */
@@ -193,7 +206,7 @@ input:checked + .slider:before {
 
 .topnav .search-container {
   float: none;
-  position: absolute;
+  position: fixed;
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
@@ -230,7 +243,6 @@ input[type=text], input[type=password] {
 
 /* Set a style for all buttons */
 button {
-  
   background-color: #474973;
   color: white;
   padding: 14px 20px;
@@ -242,13 +254,21 @@ button {
 }
 /*Set style of opening login button */
 #login {
-  position: sticky;
+  
+  position: fixed;
   width: 10%;
+  height: 40px;
   left: 1500px;
   top: 3px;
   color: white;
+ 
 }
-
+a:-webkit-any-link {
+  
+  color: white;         
+  cursor: pointer;                 
+  text-decoration: none;
+}
 button:hover {
   opacity: 0.8;
 }
