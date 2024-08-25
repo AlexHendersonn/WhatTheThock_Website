@@ -109,10 +109,6 @@
     });
 }
 
-        
-
-        
-        
 
 function toggleBackgroundColor() {
     var body = document.body;
@@ -164,7 +160,14 @@ function toggleBackgroundColor() {
         }
     });
 
- // Check if user is logged in
+ 
+
+    </script>
+
+  <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Check if user is logged in
  netlifyIdentity.on('init', user => {
         if (!user) {
             // Redirect to login page if user is not logged in
@@ -172,21 +175,11 @@ function toggleBackgroundColor() {
         }
     });
 
-    // Optionally, handle page reloads or navigation
-    netlifyIdentity.on('login', user => {
-        window.location.reload();
-    });
+   
 
     netlifyIdentity.on('logout', () => {
         window.location.href = '/login.html'; // Redirect to your login page on logout
     });
-
-    </script>
-
-  <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
-  <script src="js/app.js"></script>
-  <script>
-    
   </script>
   <script>
    
