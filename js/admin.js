@@ -11,7 +11,7 @@ document.getElementById('uploadForm').addEventListener('submit', async function 
         const space = await client.getSpace('ov6ngems1edo');
         
         // Fetch the environment (e.g., 'master' or any other environment ID you are using)
-        const environment = await space.getEnvironment('master');
+        const environment = await space.getEnvironment('WhatTheThock');
 
         const form = e.target;
 
