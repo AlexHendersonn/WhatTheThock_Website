@@ -10,46 +10,50 @@ document.getElementById('uploadForm').addEventListener('submit', async function 
         // Fetch the space
         const space = await client.getSpace('ov6ngems1edo');
         
-        // Fetch the environment (e.g., 'master' or any other environment ID you are using)
-        const environment = await space.getEnvironment('WhatTheThock');
+        // Fetch the environment (ensure this is correct, default is usually 'master')
+        const environment = await space.getEnvironment('master');
 
         const form = e.target;
 
         // 1. Upload the Image
-        const imageFile = form.keyboardImage.files[0];
-        const imageAsset = await environment.createAssetFromFiles({
-            fields: {
-                title: { 'en-US': form.keyboardName.value + ' Image' },
-                file: {
-                    'en-US': {
-                        contentType: imageFile.type,
-                        fileName: imageFile.name,
-                        file: imageFile,
+        if (form.keyboardImage.files.length > 0) {
+            const imageFile = form.keyboardImage.files[0];
+            const imageAsset = await environment.createAssetFromFiles({
+                fields: {
+                    title: { 'en-US': form.keyboardName.value + ' Image' },
+                    file: {
+                        'en-US': {
+                            contentType: imageFile.type,
+                            fileName: imageFile.name,
+                            file: imageFile,
+                        },
                     },
                 },
-            },
-        });
+            });
 
-        await imageAsset.processForAllLocales();
-        await imageAsset.publish();
+            await imageAsset.processForAllLocales();
+            await imageAsset.publish();
+        }
 
         // 2. Upload the Audio
-        const audioFile = form.keyboardAudio.files[0];
-        const audioAsset = await environment.createAssetFromFiles({
-            fields: {
-                title: { 'en-US': form.keyboardName.value + ' Audio' },
-                file: {
-                    'en-US': {
-                        contentType: audioFile.type,
-                        fileName: audioFile.name,
-                        file: audioFile,
+        if (form.keyboardAudio.files.length > 0) {
+            const audioFile = form.keyboardAudio.files[0];
+            const audioAsset = await environment.createAssetFromFiles({
+                fields: {
+                    title: { 'en-US': form.keyboardName.value + ' Audio' },
+                    file: {
+                        'en-US': {
+                            contentType: audioFile.type,
+                            fileName: audioFile.name,
+                            file: audioFile,
+                        },
                     },
                 },
-            },
-        });
+            });
 
-        await audioAsset.processForAllLocales();
-        await audioAsset.publish();
+            await audioAsset.processForAllLocales();
+            await audioAsset.publish();
+        }
 
         // 3. Upload the Video (if provided)
         let videoAsset;
@@ -78,8 +82,8 @@ document.getElementById('uploadForm').addEventListener('submit', async function 
                 title: { 'en-US': form.keyboardName.value },
                 description: { 'en-US': form.keyboardDescription.value },
                 rating: { 'en-US': form.keyboardRating.value },
-                image: { 'en-US': { sys: { id: imageAsset.sys.id, linkType: 'Asset', type: 'Link' } } },
-                audio: { 'en-US': { sys: { id: audioAsset.sys.id, linkType: 'Asset', type: 'Link' } } },
+                image: { 'en-US': imageAsset ? { sys: { id: imageAsset.sys.id, linkType: 'Asset', type: 'Link' } } : undefined },
+                audio: { 'en-US': audioAsset ? { sys: { id: audioAsset.sys.id, linkType: 'Asset', type: 'Link' } } : undefined },
                 video: videoAsset ? { 'en-US': { sys: { id: videoAsset.sys.id, linkType: 'Asset', type: 'Link' } } } : undefined,
             },
         });
@@ -87,5 +91,8 @@ document.getElementById('uploadForm').addEventListener('submit', async function 
         await entry.publish();
 
         alert('Keyboard uploaded successfully!');
-    } 
-);
+    } catch (error) {
+        console.error('Error uploading data:', error);
+        alert('There was an error uploading the data. Please check the console for details.');
+    }
+});
