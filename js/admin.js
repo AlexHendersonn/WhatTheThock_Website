@@ -7,7 +7,7 @@ document.getElementById('uploadForm').addEventListener('submit', async function 
         });
 
         const space = await client.getSpace('ov6ngems1edo');
-        const environment = await space.getEnvironment('master-2024-08-28');
+        const environment = await space.getEnvironment('master');
 
         const form = e.target;
 
