@@ -36,9 +36,9 @@ document.getElementById('uploadForm').addEventListener('submit', async function 
                 title: { 'en-US': form.keyboardName.value + ' Audio' },
                 file: {
                     'en-US': {
-                        contentType: videoFile.type,
-                        fileName: videoFile.name,
-                        file: videoFile,
+                        contentType: audioFile.type,
+                        fileName: audioFile.name,
+                        file: audioFile,
                     },
                 },
             },
