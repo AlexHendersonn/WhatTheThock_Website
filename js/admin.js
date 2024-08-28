@@ -2,7 +2,7 @@ document.getElementById('uploadForm').addEventListener('submit', async function 
     e.preventDefault();
 
     const client = contentfulManagement.createClient({
-        accessToken: 'cTZDUmdHLxg30qbme9KXTCumZ-ZfTZLGjykokOsPpIc,'
+        accessToken: 'CFPAT-mre5NPqoSgiFVh3avbOmoxDD4tT9Dh2pvpTBIbxjCTs'
     });
 
     const space = await client.getSpace('ov6ngems1edo');
