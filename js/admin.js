@@ -1,98 +1,59 @@
-document.getElementById('uploadForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
+// This script should be run on the server-side to protect your API key
+const contentfulManagement = require('contentful-management');
 
+async function uploadToContentful(formData) {
     try {
-        // Initialize the Contentful Management client
         const client = contentfulManagement.createClient({
-            accessToken: 'CFPAT-DeIhIu9e_WTS3eW3ELuKcOveDIzOsTWwwfyCWAk-3jE'
+            accessToken: process.env.CONTENTFUL_MANAGEMENT_TOKEN // Use environment variable
         });
 
-        // Fetch the space
         const space = await client.getSpace('ov6ngems1edo');
-        
-        // Fetch the environment (ensure this is correct, default is usually 'master')
         const environment = await space.getEnvironment('master');
 
-        const form = e.target;
-
-        // 1. Upload the Image
-        if (form.keyboardImage.files.length > 0) {
-            const imageFile = form.keyboardImage.files[0];
-            const imageAsset = await environment.createAssetFromFiles({
+        // Function to create and publish an asset
+        async function createAndPublishAsset(file, title) {
+            const asset = await environment.createAssetFromFiles({
                 fields: {
-                    title: { 'en-US': form.keyboardName.value + ' Image' },
+                    title: { 'en-US': title },
                     file: {
                         'en-US': {
-                            contentType: imageFile.type,
-                            fileName: imageFile.name,
-                            file: imageFile,
-                        },
-                    },
-                },
+                            contentType: file.mimetype,
+                            fileName: file.originalname,
+                            file: file.buffer
+                        }
+                    }
+                }
             });
 
-            await imageAsset.processForAllLocales();
-            await imageAsset.publish();
+            let processedAsset = await asset.processForAllLocales();
+            await processedAsset.publish();
+            return processedAsset;
         }
 
-        // 2. Upload the Audio
-        if (form.keyboardAudio.files.length > 0) {
-            const audioFile = form.keyboardAudio.files[0];
-            const audioAsset = await environment.createAssetFromFiles({
-                fields: {
-                    title: { 'en-US': form.keyboardName.value + ' Audio' },
-                    file: {
-                        'en-US': {
-                            contentType: audioFile.type,
-                            fileName: audioFile.name,
-                            file: audioFile,
-                        },
-                    },
-                },
-            });
+        // Upload assets
+        const imageAsset = formData.keyboardImage ? await createAndPublishAsset(formData.keyboardImage, `${formData.keyboardName} Image`) : null;
+        const audioAsset = formData.keyboardAudio ? await createAndPublishAsset(formData.keyboardAudio, `${formData.keyboardName} Audio`) : null;
+        const videoAsset = formData.keyboardVideo ? await createAndPublishAsset(formData.keyboardVideo, `${formData.keyboardName} Video`) : null;
 
-            await audioAsset.processForAllLocales();
-            await audioAsset.publish();
-        }
-
-        // 3. Upload the Video (if provided)
-        let videoAsset;
-        if (form.keyboardVideo.files.length > 0) {
-            const videoFile = form.keyboardVideo.files[0];
-            videoAsset = await environment.createAssetFromFiles({
-                fields: {
-                    title: { 'en-US': form.keyboardName.value + ' Video' },
-                    file: {
-                        'en-US': {
-                            contentType: videoFile.type,
-                            fileName: videoFile.name,
-                            file: videoFile,
-                        },
-                    },
-                },
-            });
-
-            await videoAsset.processForAllLocales();
-            await videoAsset.publish();
-        }
-
-        // 4. Create the Keyboard Entry
+        // Create the Keyboard Entry
         const entry = await environment.createEntry('keyboard', {
             fields: {
-                title: { 'en-US': form.keyboardName.value },
-                description: { 'en-US': form.keyboardDescription.value },
-                rating: { 'en-US': form.keyboardRating.value },
-                image: { 'en-US': imageAsset ? { sys: { id: imageAsset.sys.id, linkType: 'Asset', type: 'Link' } } : undefined },
-                audio: { 'en-US': audioAsset ? { sys: { id: audioAsset.sys.id, linkType: 'Asset', type: 'Link' } } : undefined },
+                title: { 'en-US': formData.keyboardName },
+                description: { 'en-US': formData.keyboardDescription },
+                rating: { 'en-US': formData.keyboardRating },
+                image: imageAsset ? { 'en-US': { sys: { id: imageAsset.sys.id, linkType: 'Asset', type: 'Link' } } } : undefined,
+                audio: audioAsset ? { 'en-US': { sys: { id: audioAsset.sys.id, linkType: 'Asset', type: 'Link' } } } : undefined,
                 video: videoAsset ? { 'en-US': { sys: { id: videoAsset.sys.id, linkType: 'Asset', type: 'Link' } } } : undefined,
-            },
+            }
         });
 
         await entry.publish();
 
-        alert('Keyboard uploaded successfully!');
+        return { success: true, message: 'Keyboard uploaded successfully!' };
     } catch (error) {
         console.error('Error uploading data:', error);
-        alert('There was an error uploading the data. Please check the console for details.');
+        return { success: false, message: error.message };
     }
-});
+}
+
+module.exports = { uploadToContentful };
