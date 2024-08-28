@@ -4,7 +4,7 @@ document.getElementById('uploadForm').addEventListener('submit', async function 
     try {
         // Initialize the Contentful Management client
         const client = contentfulManagement.createClient({
-            accessToken: 'CFPAT-mre5NPqoSgiFVh3avbOmoxDD4tT9Dh2pvpTBIbxjCTs'
+            accessToken: 'CFPAT-DeIhIu9e_WTS3eW3ELuKcOveDIzOsTWwwfyCWAk-3jE'
         });
 
         // Fetch the space
