@@ -4,7 +4,7 @@
 async function uploadToContentful(formData) {
     try {
         const client = contentfulManagement.createClient({
-            accessToken: process.env.CONTENTFUL_MANAGEMENT_TOKEN // Use environment variable
+            accessToken: process.env.CFPAT-mre5NPqoSgiFVh3avbOmoxDD4tT9Dh2pvpTBIbxjCTs // Use environment variable
         });
 
         const space = await client.getSpace('ov6ngems1edo');
@@ -56,4 +56,4 @@ async function uploadToContentful(formData) {
     }
 }
 
-module.exports = { uploadToContentful };
+export default { uploadToContentful };
