@@ -55,5 +55,3 @@ async function uploadToContentful(formData) {
         return { success: false, message: error.message };
     }
 }
-
-export default { uploadToContentful };
