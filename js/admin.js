@@ -25,9 +25,11 @@ document.getElementById('uploadForm').addEventListener('submit', async function 
                 },
             },
         });
-
+        console.log('Processing image asset...');
         await imageAsset.processForAllLocales();
+        console.log('Publishing image asset...');
         await imageAsset.publish();
+        console.log('Image asset created:', imageAsset);
 
         // 2. Upload the Audio
         const audioFile = form.keyboardAudio.files[0];
@@ -43,9 +45,11 @@ document.getElementById('uploadForm').addEventListener('submit', async function 
                 },
             },
         });
-
+        console.log('Processing audio asset...');
         await audioAsset.processForAllLocales();
+        console.log('Publishing audio asset...');
         await audioAsset.publish();
+        console.log('Audio asset created:', audioAsset);
 
         // 3. Upload the Video (if provided)
         let videoAsset;
