@@ -88,4 +88,4 @@ document.getElementById('uploadForm').addEventListener('submit', async function 
 
         alert('Keyboard uploaded successfully!');
     } 
-});
+);
