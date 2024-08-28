@@ -1,5 +1,5 @@
 // This script should be run on the server-side to protect your API key
-const contentfulManagement = require('contentful-management');
+
 
 async function uploadToContentful(formData) {
     try {
