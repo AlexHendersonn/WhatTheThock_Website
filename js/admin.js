@@ -1,3 +1,5 @@
+const contentful = require('contentful-management')
+
 document.getElementById('uploadForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
