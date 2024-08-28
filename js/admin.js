@@ -1,14 +1,16 @@
-const contentful = require('contentful-management')
-
 document.getElementById('uploadForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     try {
+        // Initialize the Contentful Management client
         const client = contentfulManagement.createClient({
             accessToken: 'CFPAT-mre5NPqoSgiFVh3avbOmoxDD4tT9Dh2pvpTBIbxjCTs'
         });
 
+        // Fetch the space
         const space = await client.getSpace('ov6ngems1edo');
+        
+        // Fetch the environment (e.g., 'master' or any other environment ID you are using)
         const environment = await space.getEnvironment('master');
 
         const form = e.target;
@@ -27,11 +29,9 @@ document.getElementById('uploadForm').addEventListener('submit', async function 
                 },
             },
         });
-        console.log('Processing image asset...');
+
         await imageAsset.processForAllLocales();
-        console.log('Publishing image asset...');
         await imageAsset.publish();
-        console.log('Image asset created:', imageAsset);
 
         // 2. Upload the Audio
         const audioFile = form.keyboardAudio.files[0];
@@ -47,11 +47,9 @@ document.getElementById('uploadForm').addEventListener('submit', async function 
                 },
             },
         });
-        console.log('Processing audio asset...');
+
         await audioAsset.processForAllLocales();
-        console.log('Publishing audio asset...');
         await audioAsset.publish();
-        console.log('Audio asset created:', audioAsset);
 
         // 3. Upload the Video (if provided)
         let videoAsset;
@@ -94,6 +92,3 @@ document.getElementById('uploadForm').addEventListener('submit', async function 
         alert('There was an error uploading the data. Please check the console for details.');
     }
 });
-        console.error('Error uploading data:', error);
-        alert('There was an error uploading the data. Please check the console for details.');
-    
