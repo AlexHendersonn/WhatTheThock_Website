@@ -82,4 +82,8 @@ document.getElementById('uploadForm').addEventListener('submit', async function 
     await entry.publish();
 
     alert('Keyboard uploaded successfully!');
+    } catch (error) {
+        console.error('Error uploading data:', error);
+        alert('There was an error uploading the data. Please check the console for details.');
+    }
 });
