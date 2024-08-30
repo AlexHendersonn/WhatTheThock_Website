@@ -1,24 +1,8 @@
-// Wait for Netlify Identity to be ready
-document.addEventListener('DOMContentLoaded', function () {
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", user => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            console.log("User logged in");
-            initializeContentfulUpload();
-          });
-        } else {
-          console.log("User already logged in");
-          initializeContentfulUpload();
-        }
-      });
-    }
-  });
-  
-  function initializeContentfulUpload() {
-    // Initialize the Contentful Management client
+// ... (previous Netlify Identity code remains the same)
+
+function initializeContentfulUpload() {
     const client = contentfulManagement.createClient({
-      accessToken: 'CFPAT-mre5NPqoSgiFVh3avbOmoxDD4tT9Dh2pvpTBIbxjCTs' // Your CMA token
+      accessToken: 'CFPAT-mre5NPqoSgiFVh3avbOmoxDD4tT9Dh2pvpTBIbxjCTs'
     });
   
     document.getElementById('uploadForm').addEventListener('submit', async function (e) {
@@ -30,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const environment = await space.getEnvironment('master');
         console.log('Space and environment fetched successfully');
   
-        // Function to handle asset upload and publishing
         async function uploadAndPublishAsset(file, title) {
           if (!file) {
             console.log(`No file provided for ${title}`);
@@ -50,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
             },
           });
           console.log(`${title} uploaded, processing...`);
-          await asset.processForAllLocales();
+          await asset.process();
           console.log(`${title} processed, publishing...`);
           await asset.publish();
           console.log(`${title} published successfully`);
