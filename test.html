@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contentful SDK Test</title>
-    <script src="https://cdn.jsdelivr.net/npm/contentful-management@7.3.0/dist/contentful-management.browser.min.js"></script>
-    <script src="/js/admin.js"></script>
+    <title>Contentful Test</title>
+    <script src="https://unpkg.com/contentful-management@latest/dist/contentful-management.browser.min.js"></script>
+
 </head>
 <body>
     <script>
-        console.log(contentfulManagement);
+        // Check if the contentfulManagement variable is available
+        if (window.contentfulManagement) {
+            console.log('Contentful Management SDK is loaded and available.');
+        } else {
+            console.error('Contentful Management SDK is not available.');
+        }
     </script>
 </body>
 </html>
