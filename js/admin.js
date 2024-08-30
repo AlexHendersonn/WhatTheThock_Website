@@ -2,6 +2,7 @@ function initializeContentfulUpload() {
     const client = contentfulManagement.createClient({
       accessToken: 'CFPAT-mre5NPqoSgiFVh3avbOmoxDD4tT9Dh2pvpTBIbxjCTs'
     });
+    
     document.getElementById('uploadForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       try {
@@ -9,46 +10,56 @@ function initializeContentfulUpload() {
         const space = await client.getSpace('ov6ngems1edo');
         const environment = await space.getEnvironment('master');
         console.log('Space and environment fetched successfully');
-        async function uploadAndPublishAsset(file, title) {
+  
+        async function uploadFile(file, title) {
           if (!file) {
             console.log(`No file provided for ${title}`);
             return null;
           }
           console.log(`Uploading ${title}...`);
-
-          const upload = await space.createUpload(file);
-
+          
+          // Step 1: Upload the file
+          const upload = await space.createUpload({ file });
+          console.log(`${title} uploaded successfully, upload ID: ${upload.sys.id}`);
+  
+          // Step 2: Create an asset with the uploaded file
           const asset = await environment.createAsset({
             fields: {
-              title: { 'en-US': title },
+              title: {
+                'en-US': title
+              },
               file: {
                 'en-US': {
                   contentType: file.type,
                   fileName: file.name,
                   uploadFrom: {
                     sys: {
-                      type: 'Link',
-                      linkType: 'Upload',
+                      type: "Link",
+                      linkType: "Upload",
                       id: upload.sys.id
                     }
                   }
-                },
-              },
-            },
+                }
+              }
+            }
           });
-          console.log(`${title} uploaded, processing...`);
-          await asset.process();
-          console.log(`${title} processed, publishing...`);
-          await asset.publish();
-          console.log(`${title} published successfully`);
+  
+          console.log(`Asset created for ${title}, processing...`);
+          await asset.processForAllLocales();
+          console.log(`Asset processed for ${title}`);
+          
           return asset;
         }
+  
         // Upload Image
-        const imageAsset = await uploadAndPublishAsset(e.target.keyboardImage.files[0], e.target.keyboardName.value + ' Image');
+        const imageAsset = await uploadFile(e.target.keyboardImage.files[0], e.target.keyboardName.value + ' Image');
+        
         // Upload Audio
-        const audioAsset = await uploadAndPublishAsset(e.target.keyboardAudio.files[0], e.target.keyboardName.value + ' Audio');
+        const audioAsset = await uploadFile(e.target.keyboardAudio.files[0], e.target.keyboardName.value + ' Audio');
+        
         // Upload Video (if provided)
-        const videoAsset = await uploadAndPublishAsset(e.target.keyboardVideo.files[0], e.target.keyboardName.value + ' Video');
+        const videoAsset = await uploadFile(e.target.keyboardVideo.files[0], e.target.keyboardName.value + ' Video');
+  
         // Create the Keyboard Entry
         console.log('Creating keyboard entry...');
         const entry = await environment.createEntry('keyboard', {
@@ -61,9 +72,8 @@ function initializeContentfulUpload() {
             video: videoAsset ? { 'en-US': { sys: { id: videoAsset.sys.id, linkType: 'Asset', type: 'Link' } } } : undefined,
           },
         });
-        console.log('Keyboard entry created, publishing...');
-        await entry.publish();
-        console.log('Keyboard entry published successfully');
+        
+        console.log('Keyboard entry created successfully');
         alert('Keyboard uploaded successfully!');
       } catch (error) {
         console.error('Error during upload process:', error);
