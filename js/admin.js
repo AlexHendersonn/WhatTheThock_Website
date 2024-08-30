@@ -15,14 +15,23 @@ function initializeContentfulUpload() {
             return null;
           }
           console.log(`Uploading ${title}...`);
-          const asset = await environment.createAssetFromFiles({
+
+          const upload = await space.createUpload(file);
+
+          const asset = await environment.createAsset({
             fields: {
               title: { 'en-US': title },
               file: {
                 'en-US': {
                   contentType: file.type,
                   fileName: file.name,
-                  file: file,
+                  uploadFrom: {
+                    sys: {
+                      type: 'Link',
+                      linkType: 'Upload',
+                      id: upload.sys.id
+                    }
+                  }
                 },
               },
             },
