@@ -1,3 +1,4 @@
+import contentfulManagement from 'contentful-management';
 function initializeContentfulUpload() {
     const client = contentfulManagement.createClient({
         accessToken: 'CFPAT-mre5NPqoSgiFVh3avbOmoxDD4tT9Dh2pvpTBIbxjCTs'
