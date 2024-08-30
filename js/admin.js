@@ -1,4 +1,4 @@
-const contentfulManagement = require('contentful-management');
+
 
 // Initialize the Contentful Management client
 const client = contentfulManagement.createClient({
