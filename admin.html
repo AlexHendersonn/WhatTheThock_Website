@@ -180,21 +180,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     </script>
     <script>
-    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      try {
-        const response = await fetch('/.netlify/functions/uploadContent', {
-          method: 'POST',
-          body: formData,
-        });
-        const result = await response.json();
-        alert('Content uploaded successfully!');
-      } catch (error) {
-        console.error('Error uploading content:', error);
-        alert('Failed to upload content.');
-      }
-    });</script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const formData = new FormData(e.target);
+
+          try {
+            const response = await fetch('/.netlify/functions/uploadContent', {
+              method: 'POST',
+              body: formData,
+            });
+
+            const result = await response.json();
+            alert('Upload successful!');
+          } catch (error) {
+            console.error('Error uploading content:', error);
+            alert('Failed to upload content.');
+          }
+      });
+    });
+    </script>
 
   <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
   <script src="js/app.js"></script>
