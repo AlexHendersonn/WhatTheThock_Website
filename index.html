@@ -120,19 +120,19 @@
         
 
 function toggleBackgroundColor() {
-    var body = document.body;
-    var logo = document.getElementById('logo'); // Ensure your image has this id
-
-    // Toggle the dark mode class on the body
-    body.classList.toggle("dark-blue-background");
-
-    // Change the logo source based on the dark mode class
-    if (body.classList.contains("dark-blue-background")) {
-        logo.src = "/Resources/Thock_logo_black.png"; // Dark mode logo
-    } else {
-        logo.src = "/Resources/Thock_logo_white.png"; // Default logo
-    }
+  const body = document.body;
+  const isDark = body.classList.toggle("dark-blue-background");
+  localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+  const logo = document.getElementById('logo');
+  logo.src = isDark ? "/Resources/Thock_logo_black.png" : "/Resources/Thock_logo_white.png";
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("darkMode") === "enabled") {
+    document.body.classList.add("dark-blue-background");
+    document.getElementById('logo').src = "/Resources/Thock_logo_black.png";
+  }
+});
 
 
 // Check login status and display the admin link if the user is logged in

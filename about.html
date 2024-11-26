@@ -115,9 +115,19 @@ class="close" title="Close Modal">&times;</span>
         }
 
         function toggleBackgroundColor() {
-            var body = document.body;
-            body.classList.toggle("dark-blue-background");
-        }
+  const body = document.body;
+  const isDark = body.classList.toggle("dark-blue-background");
+  localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+  const logo = document.getElementById('logo');
+  logo.src = isDark ? "/Resources/Thock_logo_black.png" : "/Resources/Thock_logo_white.png";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("darkMode") === "enabled") {
+    document.body.classList.add("dark-blue-background");
+    document.getElementById('logo').src = "/Resources/Thock_logo_black.png";
+  }
+});
 
         
     </script>
