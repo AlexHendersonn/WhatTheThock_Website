@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const formData = new FormData(e.target);
 
           try {
-            const response = await fetch('/netlify/functions/uploadContent.js', {
+            const response = await fetch('/js/uploadContent.js', {
               method: 'POST',
               body: formData,
             });
